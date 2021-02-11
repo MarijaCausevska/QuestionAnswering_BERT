@@ -142,7 +142,7 @@ if __name__ == '__main__':
             optim.step()
             directory = "saved_models/"
             path = directory + f"model_epoch{epoch}/"
-            #torch.save(model.state_dict(),path) 
+            torch.save(model.state_dict(),path) 
 
     model.eval()
    
