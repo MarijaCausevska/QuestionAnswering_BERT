@@ -48,6 +48,9 @@ if __name__ == '__main__':
             optim.step()
 
     model.eval()
+    directory = "saved_models/"
+    path = directory + f"saved_model.pth"
+    torch.save(model.state_dict(),path) 
 train_path = keras.utils.get_file("train.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json")
 eval_path = keras.utils.get_file("eval.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json")
 train = pd.read_json(train_path)
