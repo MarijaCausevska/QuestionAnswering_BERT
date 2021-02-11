@@ -3,7 +3,6 @@ transformers
 torch
 tensorflow
 pandas
-os
 re
 string
 numpy
