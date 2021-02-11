@@ -1,7 +1,7 @@
 tokenizers
 transformers
 torch
-tensorflow
+tensorflow-gpu==1.15
 json
 pandas
 os
