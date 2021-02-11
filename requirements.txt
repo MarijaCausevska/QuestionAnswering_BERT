@@ -4,5 +4,3 @@ torch
 tensorflow
 pandas 
 tensorflow.keras 
-torch.optim.AdamW( .... )
-
