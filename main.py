@@ -5,23 +5,21 @@ Created on Thu Feb 11 15:34:19 2021
 @author: MARIJA
 """
 
-
-from torch.utils.data import DataLoader
-from transformers import AdamW
+import json
+from pathlib import Path
 from transformers import DistilBertForQuestionAnswering
 import torch
 from transformers import DistilBertTokenizerFast
-import json
-from pathlib import Path
-import json
+from torch.utils.data import DataLoader
+from transformers import AdamW
 import os
 import re
 import string
 import numpy as np
-import tensorflow as tf
-import tensorflow_hub as hub
-from tensorflow import keras
-from tensorflow.keras import layers
+#import tensorflow as tf
+#import tensorflow_hub as hub
+#from tensorflow import keras
+#from tensorflow.keras import layers
 from tokenizers import BertWordPieceTokenizer
 import pandas as pd
 
