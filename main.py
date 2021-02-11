@@ -16,6 +16,7 @@ import os
 import re
 import string
 import numpy as np
+import keras
 #import tensorflow as tf
 #import tensorflow_hub as hub
 #from tensorflow import keras
@@ -23,41 +24,12 @@ import numpy as np
 from tokenizers import BertWordPieceTokenizer
 import pandas as pd
 
-model = DistilBertForQuestionAnswering.from_pretrained("distilbert-base-uncased")
 
-if __name__ == '__main__':
-    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-
-    model.to(device)
-    model.train()
-
-    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-
-    optim = AdamW(model.parameters(), lr=5e-5)
-
-    for epoch in range(2):
-        for batch in train_loader:
-            optim.zero_grad()
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            start_positions = batch['start_positions'].to(device)
-            end_positions = batch['end_positions'].to(device)
-            outputs = model(input_ids, attention_mask=attention_mask, start_positions=start_positions, end_positions=end_positions)
-            loss = outputs[0]
-            loss.backward()
-            optim.step()
-            directory = "saved_models/"
-            path = directory + f"saved_models{epoch}/"
-            torch.save(model.state_dict(),path) 
-
-    model.eval()
-   
 train_path = keras.utils.get_file("train.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json")
 eval_path = keras.utils.get_file("eval.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json")
 train = pd.read_json(train_path)
 valid = pd.read_json(eval_path)
-print(train.head(4))
-
+#print(train.head(4))
 def read_squad(path):
     path = Path(path)
     with open(path, 'rb') as f:
@@ -123,7 +95,6 @@ def add_token_positions(encodings, answers):
 
 add_token_positions(train_encodings, train_answers)
 add_token_positions(val_encodings, val_answers)
-import torch
 
 class SquadDataset(torch.utils.data.Dataset):
     def __init__(self, encodings):
@@ -137,3 +108,36 @@ class SquadDataset(torch.utils.data.Dataset):
 
 train_dataset = SquadDataset(train_encodings)
 val_dataset = SquadDataset(val_encodings)
+
+
+if __name__ == '__main__':
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    model = DistilBertForQuestionAnswering.from_pretrained("distilbert-base-uncased")
+    model.to(device)
+    model.train()
+
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+
+    optim = AdamW(model.parameters(), lr=5e-5)
+
+    for epoch in range(2):
+        for batch in train_loader:
+            optim.zero_grad()
+            input_ids = batch['input_ids'].to(device)
+            attention_mask = batch['attention_mask'].to(device)
+            start_positions = batch['start_positions'].to(device)
+            end_positions = batch['end_positions'].to(device)
+            outputs = model(input_ids, attention_mask=attention_mask, start_positions=start_positions, end_positions=end_positions)
+            loss = outputs[0]
+            loss.backward()
+            optim.step()
+            directory = "saved_models/"
+            path = directory + f"saved_models{epoch}/"
+            torch.save(model.state_dict(),path) 
+
+    model.eval()
+   
+
+
+
+
