@@ -1,3 +1,4 @@
 tokenizers
 transformers
 torch
+tensorflow
