@@ -51,11 +51,10 @@ def read_squad(path):
 
     return contexts, questions, answers
 
-train_contexts, train_questions, train_answers = read_squad(train_path)
-val_contexts, val_questions, val_answers = read_squad(eval_path)
-print(train_contexts[0])
-print(train_questions[0])
-print(train_answers[0])
+
+#print(train_contexts[0])
+#print(train_questions[0])
+#print(train_answers[0])
 def add_end_idx(answers, contexts):
     for answer, context in zip(answers, contexts):
         gold_text = answer['text']
@@ -72,12 +71,7 @@ def add_end_idx(answers, contexts):
             answer['answer_start'] = start_idx - 2
             answer['answer_end'] = end_idx - 2     # When the gold label is off by two characters
 
-add_end_idx(train_answers, train_contexts)
-add_end_idx(val_answers, val_contexts)
-tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
 
-train_encodings = tokenizer(train_contexts, train_questions, truncation=True, padding=True)
-val_encodings = tokenizer(val_contexts, val_questions, truncation=True, padding=True)
 def add_token_positions(encodings, answers):
     start_positions = []
     end_positions = []
@@ -94,8 +88,7 @@ def add_token_positions(encodings, answers):
             end_positions[-1] = encodings.char_to_token(i, answers[i]['answer_end'] + 1)
     encodings.update({'start_positions': start_positions, 'end_positions': end_positions})
 
-add_token_positions(train_encodings, train_answers)
-add_token_positions(val_encodings, val_answers)
+
 
 class SquadDataset(torch.utils.data.Dataset):
     def __init__(self, encodings):
@@ -107,15 +100,30 @@ class SquadDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.encodings.input_ids)
 
-train_dataset = SquadDataset(train_encodings)
-val_dataset = SquadDataset(val_encodings)
 
 
 if __name__ == '__main__':
+    train_contexts, train_questions, train_answers = read_squad(train_path)
+    val_contexts, val_questions, val_answers = read_squad(eval_path)
+    
+    add_end_idx(train_answers, train_contexts)
+    add_end_idx(val_answers, val_contexts)
+    
+    tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
+    train_encodings = tokenizer(train_contexts, train_questions, truncation=True, padding=True)
+    val_encodings = tokenizer(val_contexts, val_questions, truncation=True, padding=True)
+    
+    add_token_positions(train_encodings, train_answers)
+    add_token_positions(val_encodings, val_answers)
+    
+    train_dataset = SquadDataset(train_encodings)
+    val_dataset = SquadDataset(val_encodings)
+    
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     model = DistilBertForQuestionAnswering.from_pretrained("distilbert-base-uncased")
     model.to(device)
     model.train()
+   
 
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 
