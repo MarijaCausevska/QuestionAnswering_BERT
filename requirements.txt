@@ -1,4 +1,3 @@
-
-!pip install tokenizers
-!pip install transformers
-!pip install torch
+tokenizers
+transformers
+torch
