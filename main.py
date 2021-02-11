@@ -47,7 +47,7 @@ if __name__ == '__main__':
             loss.backward()
             optim.step()
             directory = "saved_models/"
-            path = directory + f"saved_model.pth"
+            path = directory + f"saved_models{epoch}/"
             torch.save(model.state_dict(),path) 
 
     model.eval()
