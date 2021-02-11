@@ -1,7 +1,7 @@
 tokenizers
 transformers
 torch
-tensorflow-gpu==1.15
+tensorflow
 pandas
 os
 re
