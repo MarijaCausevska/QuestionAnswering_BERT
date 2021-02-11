@@ -2,3 +2,14 @@ tokenizers
 transformers
 torch
 tensorflow
+json
+pandas
+os
+re
+string
+numpy
+tensorflow_hub 
+tensorflow.keras 
+pathlib
+DataLoader
+AdamW
