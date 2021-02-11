@@ -1,6 +1,5 @@
 tokenizers
 transformers
 torch
-tensorflow
 pandas 
 
