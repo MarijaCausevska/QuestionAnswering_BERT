@@ -3,4 +3,4 @@ transformers
 torch
 pandas 
 keras
-
+tensorflow_hub
