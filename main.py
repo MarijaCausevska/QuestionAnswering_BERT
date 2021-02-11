@@ -95,7 +95,7 @@ class SquadDataset(torch.utils.data.Dataset):
         #label_tensor = torch.tensor(self.label [item]).long ()
         # label_tensor = torch.tensor(int(self.label [item])).long ()
         #return {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-        return {key: torch.tensor(int(self.val[idx])) for key, val in self.encodings.items()}
+        return {key: torch.tensor(int(val[idx])) for key, val in self.encodings.items()}
 
     def __len__(self):
         return len(self.encodings.input_ids)
