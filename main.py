@@ -23,6 +23,7 @@ import keras
 #from tensorflow.keras import layers
 from tokenizers import BertWordPieceTokenizer
 import pandas as pd
+from tqdm import tqdm
 
 
 train_path = keras.utils.get_file("train.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json")
@@ -120,7 +121,7 @@ if __name__ == '__main__':
 
     optim = AdamW(model.parameters(), lr=5e-5)
 
-    for epoch in range(2):
+    for epoch in tqdm(range(2)):
         for batch in train_loader:
             optim.zero_grad()
             input_ids = batch['input_ids'].to(device)
