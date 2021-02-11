@@ -26,10 +26,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-train_path = keras.utils.get_file("train.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json")
-eval_path = keras.utils.get_file("eval.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json")
-train = pd.read_json(train_path)
-valid = pd.read_json(eval_path)
+
 #print(train.head(4))
 def read_squad(path):
     path = Path(path)
@@ -95,7 +92,10 @@ class SquadDataset(torch.utils.data.Dataset):
         self.encodings = encodings
 
     def __getitem__(self, idx):
-        return {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        #label_tensor = torch.tensor(self.label [item]).long ()
+        # label_tensor = torch.tensor(int(self.label [item])).long ()
+        #return {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        return {key: torch.tensor(int(self.val[idx])) for key, val in self.encodings.items()}
 
     def __len__(self):
         return len(self.encodings.input_ids)
@@ -103,6 +103,10 @@ class SquadDataset(torch.utils.data.Dataset):
 
 
 if __name__ == '__main__':
+    train_path = keras.utils.get_file("train.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json")
+    eval_path = keras.utils.get_file("eval.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json")
+    train = pd.read_json(train_path)
+    valid = pd.read_json(eval_path)
     train_contexts, train_questions, train_answers = read_squad(train_path)
     val_contexts, val_questions, val_answers = read_squad(eval_path)
     
