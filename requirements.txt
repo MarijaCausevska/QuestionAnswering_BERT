@@ -2,12 +2,7 @@ tokenizers
 transformers
 torch
 tensorflow
-pandas
-re
-string
-numpy
-tensorflow_hub 
+pandas 
 tensorflow.keras 
-pathlib
-DataLoader
-AdamW
+torch.optim.AdamW( .... )
+
