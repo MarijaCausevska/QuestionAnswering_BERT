@@ -183,7 +183,7 @@ if __name__ == '__main__':
     model.compile(optimizer=optimizer, loss=[loss, loss])
     model.summary()
     model.fit(x_train, y_train, epochs=2, batch_size=8, callbacks=[ValidationCallback(x_eval, y_eval)])
-    model.save_weights("weights.h5")
+    model.save_weights("./weights.h5")
     
     
     # ==================================================== TESTING =========================================================
