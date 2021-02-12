@@ -148,14 +148,14 @@ class ValidationCallback(keras.callbacks.Callback):
         print(f"\nepoch={epoch + 1}, exact match score={acc:.2f}")
         
 if __name__ == '__main__':
-    #train_path = "/content/train-v1.1.json"
-    #eval_path = "/content/val-v1.1.json"
-    #raw_train_data = pd.read_json(train_path)
-    #raw_eval_data = pd.read_json(eval_path)
-    train_path = keras.utils.get_file("train.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v1.1.json")
-    eval_path = keras.utils.get_file("eval.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json")
-    with open(train_path) as f: raw_train_data = json.load(f)
-    with open(eval_path) as f: raw_eval_data = json.load(f)
+    train_path = "./train-v1.1.json"
+    eval_path = "./val-v1.1.json"
+    raw_train_data = pd.read_json(train_path)
+    raw_eval_data = pd.read_json(eval_path)
+    #train_path = keras.utils.get_file("train.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v1.1.json")
+    #eval_path = keras.utils.get_file("eval.json", "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json")
+    #with open(train_path) as f: raw_train_data = json.load(f)
+    #with open(eval_path) as f: raw_eval_data = json.load(f)
     max_seq_length = 384
     input_word_ids = tf.keras.layers.Input(shape=(max_seq_length,), dtype=tf.int32, name='input_word_ids')
     input_mask = tf.keras.layers.Input(shape=(max_seq_length,), dtype=tf.int32, name='input_mask')
